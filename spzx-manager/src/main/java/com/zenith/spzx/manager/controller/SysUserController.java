@@ -2,6 +2,7 @@ package com.zenith.spzx.manager.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.zenith.spzx.manager.service.SysUserService;
+import com.zenith.spzx.model.dto.system.AssginRoleDto;
 import com.zenith.spzx.model.dto.system.SysUserDto;
 import com.zenith.spzx.model.entity.system.SysUser;
 import com.zenith.spzx.model.vo.common.Result;
@@ -42,6 +43,13 @@ public class SysUserController {
     @Operation(summary = "Delete system user")
     public Result<Object> editSysUser(@PathVariable Long id){
         sysUserService.deleteSysUserById(id);
+        return Result.success(null);
+    }
+
+    @PostMapping("/assignRole")
+    @Operation(summary = "Assign roles for user")
+    public Result<Object> assignRole(@RequestBody AssginRoleDto dto){
+        sysUserService.assignRole(dto);
         return Result.success(null);
     }
 }

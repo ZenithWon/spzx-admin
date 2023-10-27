@@ -18,8 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -73,5 +72,25 @@ public class SysRoleServiceImpl implements SysRoleService {
         }
 
         sysRoleMapper.deleteById(id);
+    }
+
+    @Override
+    public Map<String,Object> findAll(Long userId) {
+        Map<String,Object> map=new HashMap<>();
+        List<SysRole> sysRoles = sysRoleMapper.selectList(null);
+        List<SysUserRole> assignedRoles=sysUserRoleMapper.selectList(
+                new LambdaQueryWrapper<SysUserRole>()
+                        .eq(SysUserRole::getUserId,userId)
+        );
+
+        List<Long> sysUserRoles=new ArrayList<>();
+        for(SysUserRole sysUserRole:assignedRoles){
+            sysUserRoles.add(sysUserRole.getRoleId());
+        }
+
+        map.put("allRolesList",sysRoles);
+        map.put("sysUserRoles",sysUserRoles);
+
+        return map;
     }
 }

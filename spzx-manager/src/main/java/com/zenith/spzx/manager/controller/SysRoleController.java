@@ -10,6 +10,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping(value = "/admin/system/sysRole")
 @Tag(name="System Role Managing Api")
@@ -43,5 +47,12 @@ public class SysRoleController {
     public Result<Object> deleteSysRole(@PathVariable Long id){
         sysRoleService.deleteSysRole(id);
         return Result.success(null);
+    }
+
+    @GetMapping("/findAllRoles/{userId}")
+    @Operation(summary = "Get all roles for system user")
+    public Result<Object> findAll(@PathVariable Long userId){
+        Map<String,Object> map=sysRoleService.findAll(userId);
+        return Result.success(map);
     }
 }

@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zenith.spzx.common.exception.MyException;
 import com.zenith.spzx.manager.mapper.SysUserRoleMapper;
+import com.zenith.spzx.model.dto.system.AssginRoleDto;
 import com.zenith.spzx.model.dto.system.SysUserDto;
 import com.zenith.spzx.model.entity.system.SysUserRole;
 import com.zenith.spzx.utils.AuthContextUtil;
@@ -144,5 +145,23 @@ public class SysUserServiceImpl implements SysUserService {
         sysUserMapper.deleteById(id);
         sysUserRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getUserId,id));
 
+    }
+
+    @Override
+    @Transactional
+    public void assignRole(AssginRoleDto dto) {
+        Long userId=dto.getUserId();
+        sysUserRoleMapper.deleteByUserId(userId);
+
+        for(Long roleId:dto.getRoleIdList()){
+            SysUserRole sysUserRole=new SysUserRole();
+            sysUserRole.setUserId(userId);
+            sysUserRole.setRoleId(roleId);
+
+            int res= sysUserRoleMapper.insert(sysUserRole);
+            if(res<=0){
+                throw new MyException(ResultCodeEnum.DATABASE_ERROR);
+            }
+        }
     }
 }

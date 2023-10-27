@@ -2,6 +2,7 @@ package com.zenith.spzx.manager.service;
 
 import com.github.pagehelper.PageInfo;
 import com.zenith.spzx.manager.mapper.SysUserMapper;
+import com.zenith.spzx.model.dto.system.AssginRoleDto;
 import com.zenith.spzx.model.dto.system.LoginDto;
 import com.zenith.spzx.model.dto.system.SysUserDto;
 import com.zenith.spzx.model.entity.system.SysUser;
@@ -22,4 +23,6 @@ public interface SysUserService {
     void editSysUser(SysUser sysUser);
 
     void deleteSysUserById(Long id);
+
+    void assignRole(AssginRoleDto dto);
 }
