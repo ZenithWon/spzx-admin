@@ -1,0 +1,34 @@
+server:
+  port: 8501
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://124.70.180.4:3306/db_spzx?serverTimezone=UTC&userUnicode=true&useSSL=false&
+    username: root
+    password: 123456
+  data:
+    redis:
+      host: 124.70.180.4
+      port: 6379
+      password: redis
+      database: 2
+
+auth:
+  whiteUrl:
+    - /admin/system/index/login
+    - /admin/system/index/generateValidateCode
+    - /**/doc.*
+    - /**/swagger-ui.*
+    - /**/swagger-resources
+    - /**/webjars/**
+    - /**/v2/api-docs/**
+    - /**/v3/api-docs/**
+
+
+mybatis:
+#  config-location: classpath:/mybatis-config.xml
+  mapper-locations: classpath:/mapper/*/*.xml
+
+logging:
+  level:
+    com.zenith.spzx: debug
