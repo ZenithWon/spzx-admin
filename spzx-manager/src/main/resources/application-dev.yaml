@@ -32,3 +32,9 @@ mybatis:
 logging:
   level:
     com.zenith.spzx: debug
+
+minio:
+  host: http://124.70.180.4:9000
+  accessKey: minioadmin
+  secretKey: minioadmin
+  bucket: spzx-bucket
