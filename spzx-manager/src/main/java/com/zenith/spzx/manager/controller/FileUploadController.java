@@ -18,7 +18,7 @@ public class FileUploadController {
     @Autowired
     private FileUploadService fileUploadService;
 
-    @PostMapping("/upload")
+    @PostMapping("/fileUpload")
     @Operation(summary = "Upload a file")
     public Result<String> fileUpload(@RequestParam("file") MultipartFile file){
         String url=fileUploadService.upload(file);

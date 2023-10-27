@@ -27,18 +27,19 @@ public class FileUploadServiceImpl implements FileUploadService {
     public String upload(MultipartFile file) {
         boolean found = false;
         String url=null;
+        String bucket=minioProperties.getBucket();
         try {
-            found = minioClient.bucketExists(BucketExistsArgs.builder().bucket("spzx-bucket").build());
+            found = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucket).build());
             if (!found) {
-                minioClient.makeBucket(MakeBucketArgs.builder().bucket("spzx-bucket").build());
+                minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucket).build());
             }
 
-            String objectName= FileUtils.generateFileName(file.getOriginalFilename());
-            log.debug("Upload file ...: {}",objectName);
+            String objectName= FileUtils.generateMinioFileName(file.getOriginalFilename());
+            log.debug("Upload file: {} -> {}",file.getOriginalFilename(),objectName);
 
             minioClient.putObject(
                     PutObjectArgs.builder()
-                            .bucket(minioProperties.getBucket())
+                            .bucket(bucket)
                             .object(objectName)
                             .stream(file.getInputStream(),file.getSize(),-1)
                             .build()

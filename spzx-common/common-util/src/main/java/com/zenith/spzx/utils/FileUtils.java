@@ -1,5 +1,9 @@
 package com.zenith.spzx.utils;
 
+import cn.hutool.core.date.DateUtil;
+
+import java.util.Date;
+
 public class FileUtils {
     public static String getFileExtension(String originFileName){
         String extension = "";
@@ -10,13 +14,14 @@ public class FileUtils {
         return extension;
     }
 
-    public static String generateFileName(String originFileName){
+    public static String generateMinioFileName(String originFileName){
         String extension = getFileExtension(originFileName);
+        String folder= DateUtil.format(new Date(),"yyyyMMdd");
         String res=UUIDUitils.generateKey()+extension;
-        return res;
+        return folder+"/"+res;
     }
 
     public static void main(String[] args) {
-        System.out.println(generateFileName("1.png"));
+        System.out.println(generateMinioFileName("1.png"));
     }
 }
