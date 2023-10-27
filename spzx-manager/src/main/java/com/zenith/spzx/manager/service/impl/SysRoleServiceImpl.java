@@ -61,7 +61,7 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
-    public void deleteSysRole(Long id) {//todo 为什么返回200 OK？
+    public void deleteSysRole(Long id) {
         Long count1 = sysRoleMenuMapper.selectCount(new LambdaQueryWrapper<SysRoleMenu>().eq(SysRoleMenu::getRoleId , id));
         if(count1>0){
             throw new MyException(ResultCodeEnum.DATABASE_DELETE_ERROR);

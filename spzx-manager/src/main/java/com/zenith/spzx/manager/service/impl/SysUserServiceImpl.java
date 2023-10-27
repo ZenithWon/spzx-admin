@@ -2,7 +2,12 @@ package com.zenith.spzx.manager.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.zenith.spzx.common.exception.MyException;
+import com.zenith.spzx.manager.mapper.SysUserRoleMapper;
+import com.zenith.spzx.model.dto.system.SysUserDto;
+import com.zenith.spzx.model.entity.system.SysUserRole;
 import com.zenith.spzx.utils.AuthContextUtil;
 import com.zenith.spzx.utils.UUIDUitils;
 import com.zenith.spzx.manager.mapper.SysUserMapper;
@@ -17,8 +22,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -28,6 +35,8 @@ public class SysUserServiceImpl implements SysUserService {
     private SysUserMapper sysUserMapper;
     @Autowired
     private RedisTemplate redisTemplate;
+    @Autowired
+    private SysUserRoleMapper sysUserRoleMapper;
 
     @Override
     public LoginVo sysUserLogin(LoginDto dto) {
@@ -84,5 +93,56 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public Boolean sysUserLogout(String token) {
         return redisTemplate.delete(RedisPathConstant.USER_LOGIN + token);
+    }
+
+    @Override
+    public PageInfo<SysUser> pageQuerySysUser(Integer pageNum , Integer pageSize , SysUserDto dto) {
+        PageHelper.startPage(pageNum,pageSize);
+
+        LambdaQueryWrapper<SysUser> wrapper=new LambdaQueryWrapper<>();
+
+        wrapper.like(!StringUtils.isEmpty(dto.getKeyword()),SysUser::getUserName,dto.getKeyword());
+        wrapper.ge(!StringUtils.isEmpty(dto.getCreateTimeBegin()),SysUser::getCreateTime,dto.getCreateTimeBegin());
+        wrapper.le(!StringUtils.isEmpty(dto.getCreateTimeEnd()),SysUser::getCreateTime,dto.getCreateTimeEnd());
+        wrapper.orderByAsc(SysUser::getCreateTime);
+
+        List<SysUser> sysUsers = sysUserMapper.selectList(wrapper);
+        return new PageInfo<SysUser>(sysUsers);
+    }
+
+    @Override
+    public void saveSysUser(SysUser sysUser) {
+
+        SysUser dbSysUser=sysUserMapper.selectOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getUserName,sysUser.getUserName()));
+        if(dbSysUser!=null){
+            throw new MyException(ResultCodeEnum.USER_NAME_IS_EXISTS);
+        }
+
+        String password=sysUser.getPassword();
+        password=DigestUtils.md5DigestAsHex(password.getBytes());
+        sysUser.setPassword(password);
+
+        int res = sysUserMapper.insert(sysUser);
+        if(res<=0){
+            throw new MyException(ResultCodeEnum.DATABASE_ERROR);
+        }
+    }
+
+    @Override
+    public void editSysUser(SysUser sysUser) {
+        SysUser dbSysUser=sysUserMapper.selectOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getUserName,sysUser.getUserName()));
+        if(dbSysUser!=null&&!dbSysUser.getId().equals(sysUser.getId())){
+            throw new MyException(ResultCodeEnum.USER_NAME_IS_EXISTS);
+        }
+
+        sysUserMapper.updateById(sysUser);
+    }
+
+    @Override
+    @Transactional
+    public void deleteSysUserById(Long id) {
+        sysUserMapper.deleteById(id);
+        sysUserRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getUserId,id));
+
     }
 }
