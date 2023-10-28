@@ -3,9 +3,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://124.70.180.4:3306/db_spzx?serverTimezone=UTC&userUnicode=true&useSSL=false&
+    url: jdbc:mysql://124.70.180.4:3306/db_spzx?userUnicode=true&useSSL=false&
     username: root
-    password: 123456
+    password: qwert@520
   data:
     redis:
       host: 124.70.180.4
