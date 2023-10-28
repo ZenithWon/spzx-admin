@@ -1,6 +1,7 @@
 package com.zenith.spzx.manager.service;
 
 import com.github.pagehelper.PageInfo;
+import com.zenith.spzx.model.dto.system.AssignMenuDto;
 import com.zenith.spzx.model.dto.system.SysRoleDto;
 import com.zenith.spzx.model.entity.system.SysRole;
 
@@ -16,4 +17,6 @@ public interface SysRoleService {
     void deleteSysRole(Long id);
 
     Map<String,Object> findAll(Long userId);
+
+    void assignMenu(AssignMenuDto dto);
 }

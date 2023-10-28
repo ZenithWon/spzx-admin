@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zenith.spzx.manager.mapper.SysMenuMapper">
+    <select id="findMenuByUserId" resultType="com.zenith.spzx.model.entity.system.SysMenu">
+        select DISTINCT sys_menu.*
+        from  sys_menu
+                  INNER JOIN sys_role_menu ON sys_menu.id=sys_role_menu.menu_id
+                  INNER JOIN sys_user_role ON sys_role_menu.role_id=sys_user_role.role_id
+        where sys_user_role.user_id=#{userId} and sys_menu.is_deleted=0
+    </select>
 
 </mapper>

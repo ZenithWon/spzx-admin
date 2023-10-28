@@ -2,7 +2,7 @@ package com.zenith.spzx.manager.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.zenith.spzx.manager.service.SysUserService;
-import com.zenith.spzx.model.dto.system.AssginRoleDto;
+import com.zenith.spzx.model.dto.system.AssignRoleDto;
 import com.zenith.spzx.model.dto.system.SysUserDto;
 import com.zenith.spzx.model.entity.system.SysUser;
 import com.zenith.spzx.model.vo.common.Result;
@@ -48,7 +48,7 @@ public class SysUserController {
 
     @PostMapping("/assignRole")
     @Operation(summary = "Assign roles for user")
-    public Result<Object> assignRole(@RequestBody AssginRoleDto dto){
+    public Result<Object> assignRole(@RequestBody AssignRoleDto dto){
         sysUserService.assignRole(dto);
         return Result.success(null);
     }

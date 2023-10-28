@@ -8,6 +8,7 @@ import com.zenith.spzx.manager.mapper.SysRoleMapper;
 import com.zenith.spzx.manager.mapper.SysRoleMenuMapper;
 import com.zenith.spzx.manager.mapper.SysUserRoleMapper;
 import com.zenith.spzx.manager.service.SysRoleService;
+import com.zenith.spzx.model.dto.system.AssignMenuDto;
 import com.zenith.spzx.model.dto.system.SysRoleDto;
 import com.zenith.spzx.model.entity.system.SysRole;
 import com.zenith.spzx.model.entity.system.SysRoleMenu;
@@ -17,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -92,5 +94,31 @@ public class SysRoleServiceImpl implements SysRoleService {
         map.put("sysUserRoles",sysUserRoles);
 
         return map;
+    }
+
+    @Override
+    @Transactional
+    public void assignMenu(AssignMenuDto dto) {
+        Long roleId= dto.getRoleId();
+        List<Map<String, Number>> menuIdList = dto.getMenuIdList();
+
+        sysRoleMenuMapper.deleteByRoleId(roleId);
+        if(menuIdList==null||menuIdList.size()==0){
+            return;
+        }
+
+        for(Map<String,Number> item:menuIdList){
+            log.debug(item.toString());
+            SysRoleMenu sysRoleMenu=new SysRoleMenu();
+            sysRoleMenu.setRoleId(roleId);
+            sysRoleMenu.setMenuId(item.get("menuId").longValue());
+            sysRoleMenu.setIsHalf(item.get("isHalf").intValue());
+
+            int res=sysRoleMenuMapper.insert(sysRoleMenu);
+            if(res<=0){
+                throw new MyException(ResultCodeEnum.DATABASE_ERROR);
+            }
+        }
+
     }
 }

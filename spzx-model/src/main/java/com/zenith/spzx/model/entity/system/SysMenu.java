@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Objects;
 
 @Schema(description = "系统菜单实体类")
 @Data
@@ -15,6 +16,14 @@ public class SysMenu extends BaseEntity {
 
 	@Schema(description = "父节点id")
 	private Long parentId;
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof SysMenu)) return false;
+		return this.parentId.equals(((SysMenu) o).getParentId());
+	}
+
 
 	@Schema(description = "节点标题")
 	private String title;

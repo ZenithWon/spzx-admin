@@ -2,8 +2,10 @@ package com.zenith.spzx.manager.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.zenith.spzx.manager.service.SysRoleService;
+import com.zenith.spzx.model.dto.system.AssignMenuDto;
 import com.zenith.spzx.model.dto.system.SysRoleDto;
 import com.zenith.spzx.model.entity.system.SysRole;
+import com.zenith.spzx.model.entity.system.SysRoleMenu;
 import com.zenith.spzx.model.vo.common.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -55,4 +57,13 @@ public class SysRoleController {
         Map<String,Object> map=sysRoleService.findAll(userId);
         return Result.success(map);
     }
+
+    @PostMapping("/assignMenu")
+    @Operation(summary = "Assign menu for role")
+    public Result<Object> assignMenu(@RequestBody AssignMenuDto dto){
+        sysRoleService.assignMenu(dto);
+        return Result.success(null);
+    }
+
+
 }

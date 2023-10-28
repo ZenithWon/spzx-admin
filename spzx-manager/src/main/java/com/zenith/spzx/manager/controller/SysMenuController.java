@@ -8,6 +8,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/admin/system/sysMenu")
 @Tag(name = "System Menu Managing Api")
@@ -40,5 +43,12 @@ public class SysMenuController {
     public Result editMenuNodes(@PathVariable Long id){
         sysMenuService.deleteSysMenu(id);
         return Result.success(null);
+    }
+
+    @GetMapping("/findRoleMenu/{roleId}")
+    @Operation(summary = "Get role's menu")
+    public Result<Object> findSysRoleMenuByRoleId(@PathVariable Long roleId){
+        Map<String,Object> map=sysMenuService.findSysRoleMenuByRoleId(roleId);
+        return Result.success(map);
     }
 }
