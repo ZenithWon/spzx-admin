@@ -27,9 +27,8 @@ public class SysMenuServiceImpl implements SysMenuService {
     @Autowired
     private SysRoleMenuMapper sysRoleMenuMapper;
 
-    private List<SysMenu> allSysMenu;
 
-    List<SysMenu> dfsFindNodes(SysMenu sysMenu){
+    List<SysMenu> dfsFindNodes(SysMenu sysMenu,List<SysMenu> allSysMenu){
         SysMenu findObj=new SysMenu();
         findObj.setParentId(sysMenu.getId());
 
@@ -37,7 +36,7 @@ public class SysMenuServiceImpl implements SysMenuService {
         while(allSysMenu.contains(findObj)){
             Integer index=allSysMenu.indexOf(findObj);
             SysMenu parent=allSysMenu.get(index);
-            List<SysMenu> children = dfsFindNodes(parent);
+            List<SysMenu> children = dfsFindNodes(parent,allSysMenu);
             parent.setChildren(children);
             parentMenus.add(parent);
             allSysMenu.remove(findObj);
@@ -47,11 +46,11 @@ public class SysMenuServiceImpl implements SysMenuService {
 
     @Override
     public List<SysMenu> findNodes() {
-        this.allSysMenu=sysMenuMapper.selectList(null);
+        List<SysMenu> allSysMenu=sysMenuMapper.selectList(null);
         SysMenu rootNode=new SysMenu();
         rootNode.setId(0L);
 
-        return dfsFindNodes(rootNode);
+        return dfsFindNodes(rootNode,allSysMenu);
     }
 
     @Override
@@ -109,11 +108,11 @@ public class SysMenuServiceImpl implements SysMenuService {
         SysUser sysUser = AuthContextUtil.get();
         Long userId = sysUser.getId();
 
-        this.allSysMenu=sysMenuMapper.findMenuByUserId(userId);
+        List<SysMenu> allSysMenu=sysMenuMapper.findMenuByUserId(userId);
         SysMenu rootNode=new SysMenu();
         rootNode.setId(0L);
 
-        List<SysMenu> sysMenus = this.dfsFindNodes(rootNode);
+        List<SysMenu> sysMenus = this.dfsFindNodes(rootNode,allSysMenu);
 
         return buildMenus(sysMenus);
     }
