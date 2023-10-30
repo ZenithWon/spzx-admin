@@ -1,5 +1,6 @@
 package com.zenith.spzx.model.entity.product;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.zenith.spzx.model.entity.base.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -15,12 +16,15 @@ public class CategoryBrand extends BaseEntity {
 	private Long categoryId;
 
 	@Schema(description = "分类名称" , required = false)
+	@TableField(exist = false)
 	private String categoryName;
 
 	@Schema(description = "品牌名称" , required = false)
+	@TableField(exist = false)
 	private String brandName;
 
 	@Schema(description = "品牌logo" , required = false)
+	@TableField(exist = false)
 	private String logo;
 
 }

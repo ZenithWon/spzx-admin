@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/admin/product/brand")
 @Tag(name="Brand Api")
@@ -21,6 +23,13 @@ public class BrandController {
     public Result<PageInfo<Brand>> findByPage(@PathVariable Integer page, @PathVariable Integer limit) {
         PageInfo<Brand> pageInfo = brandService.findByPage(page, limit);
         return Result.success(pageInfo) ;
+    }
+
+    @GetMapping
+    @Operation(summary = "Get all brand info")
+    public Result<List<Brand>> findAll() {
+        List<Brand> list = brandService.findAll();
+        return Result.success(list);
     }
 
     @PostMapping

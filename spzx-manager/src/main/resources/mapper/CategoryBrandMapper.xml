@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zenith.spzx.manager.mapper.CategoryBrandMapper">
+
+    <select id="findByBrandOrCategory" resultType="com.zenith.spzx.model.entity.product.CategoryBrand">
+        select cb.id,cb.brand_id,cb.category_id,cb.create_time,cb.update_time,
+               c.name as categoryName,
+               b.name as brandName, b.logo
+        from category c
+                 inner join category_brand cb on c.id = cb.category_id
+                 inner join brand b on cb.brand_id = b.id
+        <where>
+            <if test="brandId!=null and brandId!=''">
+                and cb.brand_id = #{brandId}
+            </if>
+            <if test="categoryId!=null and categoryId!=''">
+                and cb.category_id = #{categoryId}
+            </if>
+            and cb.is_deleted=0
+        </where>
+        order by cb.id desc
+
+    </select>
+</mapper>
