@@ -2,6 +2,7 @@ package com.zenith.spzx.common.log.aspect;
 
 import com.alibaba.fastjson.JSON;
 import com.zenith.spzx.common.log.annotation.Log;
+import com.zenith.spzx.common.log.enums.OperationType;
 import com.zenith.spzx.common.log.service.LogService;
 import com.zenith.spzx.model.entity.system.SysOperLog;
 import com.zenith.spzx.model.vo.common.Result;
@@ -47,7 +48,9 @@ public class LogAspect {
         } finally {
             long end = System.currentTimeMillis();
             log.debug("Request end => URL[{} {}], consume time: {}ms",sysOperLog.getRequestMethod(),sysOperLog.getOperUrl(),end-begin);
-            logService.saveSysOperLog(sysOperLog);
+            if(!sysOperLog.getBusinessType().equals(OperationType.OTHER.toString())||!sysOperLog.getStatus().equals(0)){
+                logService.saveSysOperLog(sysOperLog);
+            }
         }
 
         return proceed;

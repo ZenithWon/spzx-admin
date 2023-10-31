@@ -1,5 +1,7 @@
 package com.zenith.spzx.manager.controller;
 
+import com.zenith.spzx.common.log.annotation.Log;
+import com.zenith.spzx.common.log.enums.OperationType;
 import com.zenith.spzx.manager.service.SysMenuService;
 import com.zenith.spzx.manager.service.SysUserService;
 import com.zenith.spzx.manager.service.ValidateCodeService;
@@ -31,6 +33,7 @@ public class IndexController {
 
     @Operation(summary = "System user login")
     @PostMapping(value = "/login")
+    @Log(title = "auth:login",businessType = OperationType.AUTH)
     public Result<LoginVo> sysUserLogin(@RequestBody LoginDto dto){
         LoginVo loginVo = sysUserService.sysUserLogin(dto);
         return Result.success(loginVo);
@@ -38,6 +41,7 @@ public class IndexController {
 
     @Operation(summary = "System user logout")
     @GetMapping(value = "/logout")
+    @Log(title = "auth:logout",businessType = OperationType.AUTH)
     public Result<Object> sysUserLogout(@RequestHeader(name = "token") String token){
         Boolean res= sysUserService.sysUserLogout(token);
         if(res){

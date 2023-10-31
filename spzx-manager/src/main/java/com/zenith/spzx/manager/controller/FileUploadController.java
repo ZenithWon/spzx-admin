@@ -1,5 +1,8 @@
 package com.zenith.spzx.manager.controller;
 
+import com.zenith.spzx.common.log.annotation.Log;
+import com.zenith.spzx.common.log.enums.OperationType;
+import com.zenith.spzx.common.log.enums.OperatorType;
 import com.zenith.spzx.manager.service.FileUploadService;
 import com.zenith.spzx.model.vo.common.Result;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,6 +23,7 @@ public class FileUploadController {
 
     @PostMapping("/fileUpload")
     @Operation(summary = "Upload a file")
+    @Log(title = "file:upload",businessType = OperationType.FILE)
     public Result<String> fileUpload(@RequestParam("file") MultipartFile file){
         String url=fileUploadService.upload(file);
 

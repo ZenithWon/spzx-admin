@@ -168,6 +168,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public void updateStatus(Long id , Integer status) {
         if(!status.equals(1)&&!status.equals(-1)&&status.equals(0)){
             throw new MyException(ResultCodeEnum.ILLEGAL_REQUEST);
@@ -180,5 +181,13 @@ public class ProductServiceImpl implements ProductService {
 
         product.setStatus(status);
         productMapper.updateById(product);
+
+        List<ProductSku> productSkus = productSkuMapper.selectList(
+                new LambdaQueryWrapper<ProductSku>().eq(ProductSku::getProductId , id)
+        );
+        for(ProductSku item:productSkus){
+            item.setStatus(status);
+            productSkuMapper.updateById(item);
+        }
     }
 }

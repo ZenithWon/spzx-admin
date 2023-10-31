@@ -1,5 +1,7 @@
 package com.zenith.spzx.manager.controller;
 
+import com.zenith.spzx.common.log.annotation.Log;
+import com.zenith.spzx.common.log.enums.OperationType;
 import com.zenith.spzx.manager.service.OrderInfoService;
 import com.zenith.spzx.model.dto.order.OrderStatisticsDto;
 import com.zenith.spzx.model.vo.common.Result;
@@ -17,6 +19,7 @@ public class OrderInfoController {
     private OrderInfoService orderInfoService ;
 
     @GetMapping("/getOrderStatisticsData")
+    @Log(title = "orderStatistics:list",businessType = OperationType.OTHER)
     public Result<OrderStatisticsVo> getOrderStatisticsData(OrderStatisticsDto orderStatisticsDto) {
         OrderStatisticsVo orderStatisticsVo = orderInfoService.getOrderStatisticsData(orderStatisticsDto) ;
         return Result.success(orderStatisticsVo) ;
