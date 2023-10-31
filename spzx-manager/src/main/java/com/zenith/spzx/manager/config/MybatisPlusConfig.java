@@ -19,4 +19,5 @@ public class MybatisPlusConfig {
         pageInterceptor.setProperties(properties);
         return pageInterceptor;
     }
+
 }

@@ -19,9 +19,10 @@ public class SysOperLog extends BaseEntity {
 	@Schema(description = "请求方式")
 	private String requestMethod;
 
-	private Integer businessType ;			// 业务类型（0其它 1新增 2修改 3删除）
+	@Schema(description = "业务类型")
+	private String businessType ;			// 业务类型（0其它 1新增 2修改 3删除）
 
-	@Schema(description = "操作类别（0其它 1后台用户 2手机端用户）")
+	@Schema(description = "操作人员类型（0其它 1后台用户 2手机端用户）")
 	private String operatorType;
 
 	@Schema(description = "操作人员")
@@ -32,12 +33,6 @@ public class SysOperLog extends BaseEntity {
 
 	@Schema(description = "主机地址")
 	private String operIp;
-
-	@Schema(description = "请求参数")
-	private String operParam;
-
-	@Schema(description = "返回参数")
-	private String jsonResult;
 
 	@Schema(description = "操作状态（0正常 1异常）")
 	private Integer status;

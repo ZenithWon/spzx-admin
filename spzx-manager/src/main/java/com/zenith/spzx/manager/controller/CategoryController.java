@@ -1,5 +1,7 @@
 package com.zenith.spzx.manager.controller;
 
+import com.zenith.spzx.common.log.annotation.Log;
+import com.zenith.spzx.common.log.enums.OperationType;
 import com.zenith.spzx.manager.service.CategoryService;
 import com.zenith.spzx.model.entity.product.Category;
 import com.zenith.spzx.model.vo.common.Result;
@@ -21,6 +23,7 @@ public class CategoryController {
 
     @GetMapping("/{parentId}")
     @Operation(summary = "Find categories by parent id, lazy loading")
+    @Log(title = "category:list",businessType = OperationType.OTHER)
     public Result<List<Category>> findByPaerntId(@PathVariable Long parentId){
         List<Category> categories=categoryService.findByPaerntId(parentId);
         return Result.success(categories);
@@ -28,6 +31,7 @@ public class CategoryController {
 
     @PostMapping("/importData")
     @Operation(summary = "Import data with excel table")
+    @Log(title = "category:import",businessType = OperationType.OTHER)
     public Result<Object> importData(MultipartFile file){
         categoryService.importData(file);
         return Result.success(null);
@@ -35,6 +39,7 @@ public class CategoryController {
 
     @GetMapping("/exportData")
     @Operation(summary = "Export category data and generate excel table")
+    @Log(title = "category:export",businessType = OperationType.OTHER)
     public Result<Object> exportData(HttpServletResponse response){
         categoryService.exportData(response);
         return Result.success(null);

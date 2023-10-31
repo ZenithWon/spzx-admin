@@ -1,6 +1,8 @@
 package com.zenith.spzx.manager.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.zenith.spzx.common.log.annotation.Log;
+import com.zenith.spzx.common.log.enums.OperationType;
 import com.zenith.spzx.manager.service.SysUserService;
 import com.zenith.spzx.model.dto.system.AssignRoleDto;
 import com.zenith.spzx.model.dto.system.SysUserDto;
@@ -20,6 +22,7 @@ public class SysUserController {
 
     @GetMapping("/{pageNum}/{pageSize}")
     @Operation(summary = "Query system users")
+    @Log(title = "sysUser:list",businessType = OperationType.OTHER)
     public Result<PageInfo<SysUser>> pageQuerySysUser(SysUserDto dto, @PathVariable Integer pageNum,@PathVariable Integer pageSize){
         PageInfo<SysUser> pageInfo= sysUserService.pageQuerySysUser(pageNum,pageSize,dto);
         return Result.success(pageInfo);
@@ -27,6 +30,7 @@ public class SysUserController {
 
     @PostMapping
     @Operation(summary = "Insert a new system user")
+    @Log(title = "sysUser:insert",businessType = OperationType.INSERT)
     public Result<Object> saveSysUser(@RequestBody SysUser sysUser){
         sysUserService.saveSysUser(sysUser);
         return Result.success(null);
@@ -34,6 +38,7 @@ public class SysUserController {
 
     @PutMapping
     @Operation(summary = "Edit system user")
+    @Log(title = "sysUser:edit",businessType = OperationType.UPDATE)
     public Result<Object> editSysUser(@RequestBody SysUser sysUser){
         sysUserService.editSysUser(sysUser);
         return Result.success(null);
@@ -41,13 +46,15 @@ public class SysUserController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete system user")
-    public Result<Object> editSysUser(@PathVariable Long id){
+    @Log(title = "sysUser:edit",businessType = OperationType.UPDATE)
+    public Result<Object> deleteSysUser(@PathVariable Long id){
         sysUserService.deleteSysUserById(id);
         return Result.success(null);
     }
 
     @PostMapping("/assignRole")
     @Operation(summary = "Assign roles for user")
+    @Log(title = "sysUser:edit",businessType = OperationType.UPDATE)
     public Result<Object> assignRole(@RequestBody AssignRoleDto dto){
         sysUserService.assignRole(dto);
         return Result.success(null);

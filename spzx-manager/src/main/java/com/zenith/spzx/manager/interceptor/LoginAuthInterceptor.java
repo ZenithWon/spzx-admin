@@ -29,8 +29,6 @@ public class LoginAuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request , HttpServletResponse response , Object handler) throws Exception {
         String method = request.getMethod();
-        String uri=request.getRequestURI();
-        log.debug("Request: {} {}",method,uri);
 
         if(method.equals("OPTIONS")){
             return true;

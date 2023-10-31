@@ -1,6 +1,8 @@
 package com.zenith.spzx.manager.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.zenith.spzx.common.log.annotation.Log;
+import com.zenith.spzx.common.log.enums.OperationType;
 import com.zenith.spzx.manager.service.BrandService;
 import com.zenith.spzx.model.entity.product.Brand;
 import com.zenith.spzx.model.vo.common.Result;
@@ -20,6 +22,7 @@ public class BrandController {
 
     @GetMapping("/{page}/{limit}")
     @Operation(summary = "Get all brand info with page limit")
+    @Log(title = "brand:list",businessType = OperationType.OTHER)
     public Result<PageInfo<Brand>> findByPage(@PathVariable Integer page, @PathVariable Integer limit) {
         PageInfo<Brand> pageInfo = brandService.findByPage(page, limit);
         return Result.success(pageInfo) ;
@@ -27,6 +30,7 @@ public class BrandController {
 
     @GetMapping
     @Operation(summary = "Get all brand info")
+    @Log(title = "brand:list",businessType = OperationType.OTHER)
     public Result<List<Brand>> findAll() {
         List<Brand> list = brandService.findAll();
         return Result.success(list);
@@ -34,6 +38,7 @@ public class BrandController {
 
     @PostMapping
     @Operation(summary = "Insert a new brand")
+    @Log(title = "brand:insert",businessType = OperationType.INSERT)
     public Result<Object> saveBrand(@RequestBody Brand brand){
         brandService.saveBrand(brand);
         return Result.success(null);
@@ -41,6 +46,7 @@ public class BrandController {
 
     @PutMapping
     @Operation(summary = "Edit brand info")
+    @Log(title = "brand:edit",businessType = OperationType.UPDATE)
     public Result<Object> editBrand(@RequestBody Brand brand){
         brandService.editBrand(brand);
         return Result.success(null);
@@ -48,6 +54,7 @@ public class BrandController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete brand by id")
+    @Log(title = "brand:delete",businessType = OperationType.DELETE)
     public Result<Object> deleteBrand(@PathVariable Long id){
         brandService.deleteById(id);
         return Result.success(null);

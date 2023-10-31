@@ -13,6 +13,7 @@ public enum ResultCodeEnum {
     DATABASE_DELETE_ERROR(205,"数据库删除失败"),
     LOGIN_AUTH(208 , "用户未登录"),
     USER_NAME_IS_EXISTS(209 , "用户名已经存在"),
+    ILLEGAL_REQUEST(210 , "非法请求 "),
     SYSTEM_ERROR(501 , "服务端出现错误"),
     NODE_ERROR( 217, "该节点下有子节点，不可以删除"),
     DATA_ERROR(204, "数据异常"),
