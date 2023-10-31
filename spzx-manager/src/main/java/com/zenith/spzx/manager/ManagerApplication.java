@@ -1,5 +1,6 @@
-package com.zenith.spzx;
+package com.zenith.spzx.manager;
 
+import com.zenith.spzx.common.log.annotation.EnableLogAspect;
 import com.zenith.spzx.manager.properties.AuthProperties;
 import com.zenith.spzx.manager.properties.MinioProperties;
 import org.springframework.boot.SpringApplication;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableConfigurationProperties(value = {AuthProperties.class, MinioProperties.class})
 @EnableTransactionManagement
 @EnableScheduling
+@EnableLogAspect
 public class ManagerApplication {
     public static void main(String[] args) {
         SpringApplication.run(ManagerApplication.class,args);
