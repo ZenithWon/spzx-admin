@@ -37,7 +37,8 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         String url = request.getURI().getPath();
         String method=request.getMethod().name();
 
-        log.debug("Request URL=> [{} {}]",method,url);
+        log.debug("Request URL => [{} {}]",method,url);
+        Long begin=System.currentTimeMillis();
 
         AntPathMatcher antPathMatcher = new AntPathMatcher();
         if(antPathMatcher.match("/api/**/auth/**",url)){
@@ -48,7 +49,10 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
             }
         }
 
-        return chain.filter(exchange);
+        return chain.filter(exchange).then(Mono.fromRunnable(() -> {
+            Long end=System.currentTimeMillis();
+            log.debug("Consume time: {}ms, URL => [{} {}]",(end-begin),method,url);
+        }));
     }
 
     private Mono<Void> out(ServerHttpResponse response, ResultCodeEnum resultCodeEnum) {

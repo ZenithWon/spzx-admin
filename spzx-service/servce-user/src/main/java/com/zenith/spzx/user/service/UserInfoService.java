@@ -15,4 +15,6 @@ public interface UserInfoService {
     UserInfoVo getCurrentUserInfo();
 
     List<UserAddress> findUserAddressList();
+
+    UserAddress getById(Long id);
 }

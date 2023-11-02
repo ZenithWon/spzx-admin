@@ -120,4 +120,9 @@ public class UserInfoServiceImpl implements UserInfoService {
         );
         return userAddressList;
     }
+
+    @Override
+    public UserAddress getById(Long id) {
+        return userAddressMapper.selectById(id);
+    }
 }

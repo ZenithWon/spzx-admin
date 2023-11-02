@@ -20,7 +20,8 @@ public enum ResultCodeEnum {
     DATA_ERROR(204, "数据异常"),
     ACCOUNT_STOP( 216, "账号已停用"),
 
-    STOCK_LESS( 219, "库存不足")
+    STOCK_LESS( 219, "库存不足"),
+    PAY_ERROR( 220, "支付失败")
 
 
     ;

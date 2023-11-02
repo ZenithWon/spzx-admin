@@ -40,7 +40,7 @@ public class CartServiceImpl implements CartService {
             cartInfo=new CartInfo();
             cartInfo.setUserId(userId);
             cartInfo.setSkuId(skuId);
-            cartInfo.setCartPrice(productSku.getCostPrice());
+            cartInfo.setCartPrice(productSku.getSalePrice());
             cartInfo.setSkuNum(skuNum);
             cartInfo.setImgUrl(productSku.getThumbImg());
             cartInfo.setSkuName(productSku.getSkuName());
