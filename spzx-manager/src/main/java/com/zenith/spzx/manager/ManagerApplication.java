@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.zenith.spzx.common","com.zenith.spzx.manager"})
 @EnableConfigurationProperties(value = {AuthProperties.class, MinioProperties.class})
 @EnableTransactionManagement
 @EnableScheduling

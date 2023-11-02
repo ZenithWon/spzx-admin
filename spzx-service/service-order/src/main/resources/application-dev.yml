@@ -1,0 +1,19 @@
+server:
+  port: 8513
+
+spring:
+  application:
+    name: service-order
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 124.70.180.4:8848
+  data:
+    redis:
+      host: 124.70.180.4
+      port: 6379
+      password: redis
+      database: 2
+logging:
+  level:
+    com.zenith.spzx: debug

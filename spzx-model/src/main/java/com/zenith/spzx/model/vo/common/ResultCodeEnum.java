@@ -14,6 +14,7 @@ public enum ResultCodeEnum {
     LOGIN_AUTH(208 , "用户未登录"),
     USER_NAME_IS_EXISTS(209 , "用户名已经存在"),
     ILLEGAL_REQUEST(210 , "非法请求 "),
+    USER_NOT_EXIST(211 , "用户不存在 "),
     SYSTEM_ERROR(501 , "服务端出现错误"),
     NODE_ERROR( 217, "该节点下有子节点，不可以删除"),
     DATA_ERROR(204, "数据异常"),

@@ -26,6 +26,20 @@ spring:
           uri: lb://service-product
           predicates:
             - Path=/*/product/**
+        - id: service-user
+          uri: lb://service-user
+          predicates:
+           - Path=/*/user/**
+        - id: service-order
+          uri: lb://service-order
+          predicates:
+            - Path=/*/order/**
+  data:
+    redis:
+      host: 124.70.180.4
+      port: 6379
+      password: redis
+      database: 2
 logging:
   level:
     com.zenith.spzx.gateway: debug
