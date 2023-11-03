@@ -33,6 +33,8 @@ public class CategoryController {
     @Operation(summary = "Import data with excel table")
     @Log(title = "category:import",businessType = OperationType.OTHER)
     public Result<Object> importData(MultipartFile file){
+        //FIXME: 如果涉及到修改分类，需要加上清除redis缓存的数据，删除"category:"下所有的key
+
         categoryService.importData(file);
         return Result.success(null);
     }

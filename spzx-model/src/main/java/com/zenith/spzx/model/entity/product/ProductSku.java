@@ -49,4 +49,6 @@ public class ProductSku extends BaseEntity {
 	@Schema(description = "线上状态：0-初始值，1-上架，-1-自主下架")
 	private Integer status;
 
+
+
 }

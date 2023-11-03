@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.zenith.spzx.product.mapper.ProductSkuMapper">
+
+    <select id="queryByDto" resultType="com.zenith.spzx.model.entity.product.ProductSku">
+        select ps.*
+        from product_sku ps inner join product p on ps.product_id = p.id
+        <where>
+            <if test="keyword!=null and keyword!=''">and ps.sku_name like concat('%',#{keyword},'%')</if>
+            <if test="brandId!=null">and p.brand_id=#{brandId}</if>
+            <if test="category1Id != null">and p.category1_id=#{category1Id}</if>
+            <if test="category2Id != null">and p.category2_id=#{category2Id}</if>
+            <if test="category3Id != null">and p.category3_id=#{category3Id}</if>
+            and p.status=1
+            and p.audit_status=1
+            and ps.status=1
+            and p.is_deleted=0
+            and ps.is_deleted=0
+
+        </where>
+        <if test="field!=null">
+            order by ps.${field} ${method}
+        </if>
+
+
+    </select>
+</mapper>
