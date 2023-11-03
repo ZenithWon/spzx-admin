@@ -2,6 +2,7 @@ package com.zenith.spzx.product.service;
 
 import com.github.pagehelper.PageInfo;
 import com.zenith.spzx.model.dto.h5.ProductSkuDto;
+import com.zenith.spzx.model.entity.order.OrderItem;
 import com.zenith.spzx.model.entity.product.ProductSku;
 import com.zenith.spzx.model.vo.h5.ProductItemVo;
 
@@ -15,4 +16,6 @@ public interface ProductService {
     ProductItemVo getItem(Long skuId);
 
     ProductSku getSkuById(Long skuId);
+
+    void updateAfterPay(List<OrderItem> orderItemList);
 }

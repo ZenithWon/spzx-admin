@@ -7,6 +7,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zenith.spzx.common.exception.MyException;
 import com.zenith.spzx.model.dto.h5.ProductSkuDto;
+import com.zenith.spzx.model.entity.order.OrderItem;
 import com.zenith.spzx.model.entity.product.Product;
 import com.zenith.spzx.model.entity.product.ProductDetails;
 import com.zenith.spzx.model.entity.product.ProductSku;
@@ -19,6 +20,7 @@ import com.zenith.spzx.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -104,5 +106,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductSku getSkuById(Long skuId) {
         return productSkuMapper.selectById(skuId);
+    }
+
+    @Override
+    @Transactional
+    public void updateAfterPay(List<OrderItem> orderItemList) {
+        for(OrderItem orderItem:orderItemList){
+            ProductSku sku = productSkuMapper.selectById(orderItem.getSkuId());
+            sku.setSaleNum(sku.getSaleNum()+orderItem.getSkuNum());
+            sku.setStockNum(sku.getStockNum()-orderItem.getSkuNum());
+            productSkuMapper.updateById(sku);
+        }
     }
 }

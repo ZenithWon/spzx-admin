@@ -2,6 +2,7 @@ package com.zenith.spzx.product.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.zenith.spzx.model.dto.h5.ProductSkuDto;
+import com.zenith.spzx.model.entity.order.OrderItem;
 import com.zenith.spzx.model.entity.product.ProductSku;
 import com.zenith.spzx.model.vo.common.Result;
 import com.zenith.spzx.model.vo.h5.ProductItemVo;
@@ -10,6 +11,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "商品列表管理")
 @RestController
@@ -36,5 +39,12 @@ public class ProductController {
     public Result<ProductSku> getSkuById(@PathVariable Long skuId){
         ProductSku sku=productService.getSkuById(skuId);
         return Result.success(sku);
+    }
+
+    @PostMapping("/paySuccess/update")
+    public Result<Object> updateAfterPay(@RequestBody List<OrderItem> orderItemList){
+
+        productService.updateAfterPay(orderItemList);
+        return Result.success(null);
     }
 }

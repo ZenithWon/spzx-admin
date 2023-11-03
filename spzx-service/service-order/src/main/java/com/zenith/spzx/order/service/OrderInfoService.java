@@ -17,4 +17,6 @@ public interface OrderInfoService {
     PageInfo<OrderInfo> findUserPage(Integer page , Integer limit , Integer orderStatus);
 
     OrderInfo getOrderByNo(String orderNo);
+
+    void updateOrderInfo(OrderInfo orderInfo);
 }

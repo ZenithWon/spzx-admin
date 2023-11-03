@@ -139,7 +139,13 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     @Override
     public OrderInfo getOrderInfo(Long orderId) {
-        return orderInfoMapper.selectById(orderId);
+        List<OrderItem> orderItems = orderItemMapper.selectList(
+                new LambdaQueryWrapper<OrderItem>().eq(OrderItem::getOrderId , orderId)
+        );
+        OrderInfo orderInfo = orderInfoMapper.selectById(orderId);
+        orderInfo.setOrderItemList(orderItems);
+
+        return orderInfo;
     }
 
     @Override
@@ -193,4 +199,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderInfo.setOrderItemList(orderItemList);
         return orderInfo;
     }
+
+    @Override
+    public void updateOrderInfo(OrderInfo orderInfo) {
+        orderInfoMapper.updateById(orderInfo);
+    }
+
+
 }
